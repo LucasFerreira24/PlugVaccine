@@ -13,6 +13,13 @@
     <None Remove="Images\proanalysis.png" />
     <None Remove="Images\proanalysis2.png" />
     <None Remove="Images\prodashboard.png" />
+    <None Remove="word-map-index.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="word-map-index.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

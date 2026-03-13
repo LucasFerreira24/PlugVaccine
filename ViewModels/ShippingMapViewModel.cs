@@ -1,12 +1,13 @@
-﻿using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
-using Production_Analysis.DbServices;
-using Production_Analysis.Models;
-using SkiaSharp;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using Production_Analysis.DbServices;
+using Production_Analysis.Models;
+using SkiaSharp;
 
 namespace Production_Analysis.ViewModels
 {
@@ -45,8 +46,9 @@ namespace Production_Analysis.ViewModels
         }
 
         private string GetJsonShortName(string? landName)
-        {            
-            using FileStream json = File.OpenRead(@"C:\Users\sasha\source\repos\C#\foo\word-map-index.json");
+        {
+            using FileStream json = File.OpenRead(
+                System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "word-map-index.json"));
             List<LandJson>? lands = JsonSerializer.Deserialize<List<LandJson>>(json);
             
             return (from result in lands

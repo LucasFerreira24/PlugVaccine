@@ -11,7 +11,9 @@ namespace Production_Analysis.DbServices
 
         public DbConnection()
         {
-            connectionString = "Server=(local); DataBase=ProductionAnalysis; Integrated Security=true";
+            connectionString = "Server=ANAROCHA\\SQLEXPRESS;Database=ProductionAnalysis;Integrated Security=true";
+            //  Aqui e para substituir a connstring acima por uma string de conexão personalizada, caso seja necessário.
+
         }
 
         public SqlConnection GetConnection()
