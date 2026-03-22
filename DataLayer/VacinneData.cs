@@ -180,8 +180,7 @@ namespace DataLayer
 
         public static DataTable Listar(out string erro)
         {
-            DataTable dataTable = DatabaseService.ObterLista("ListarRecibo", Properties.Settings.Default.ConnectionString, out erro);
-            return dataTable;
+            DataTable dataTable = DataBaseService.
         }
 
         #endregion
