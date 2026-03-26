@@ -1,6 +1,6 @@
 ﻿namespace BusinessLayer
 {
-    public class VaccineCollection
+    public class VaccineCollection : List<Vaccine>
     {
 
     }
