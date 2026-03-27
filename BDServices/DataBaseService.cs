@@ -7,12 +7,15 @@ namespace BDServices
     public class DataBaseService
     {
 
-        private string ConnectionString;
+        private string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PlugVaccineDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+        // Susana Domingues private string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+        // Ines Couto private string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+        // Ana Rocha private string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+
         private SqlConnection? Conn;
 
-        public DataBaseService(string connectionString)
+        public DataBaseService()
         {
-            ConnectionString = connectionString;
             Conn = null;
         }
 

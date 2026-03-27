@@ -1,13 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data;
 using BDServices;
 
 namespace DataLayer
 {
     public class VacinneData
     {
+
+        private DataBaseService dbService;
+
+        #region Construtor
+
+        public VacinneData()
+        {
+            dbService = new DataBaseService();
+            dbService.connect();
+        }
+
+        #endregion
+
         #region Metodos
 
         #region MetodosNaoUsados
@@ -178,9 +188,28 @@ namespace DataLayer
 
         #region Listar
 
-        public static DataTable Listar(out string erro)
+        public DataTable Listar(out string erro)
         {
-            DataTable dataTable = DataBaseService.
+            erro = string.Empty;
+            DataTable result = new DataTable();
+
+            try
+            {
+                string sql = "SELECT * FROM Vaccine_data";
+
+                dbService.open();
+                result = dbService.ExecuteSelectQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                erro = ex.Message;
+            }
+            finally
+            {
+                dbService.close();
+            }
+
+            return result;
         }
 
         #endregion
