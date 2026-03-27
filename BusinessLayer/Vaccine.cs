@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Data;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-
-// Alterar para o que formos usar em conjundo :D #PAPAGAIOFOFINHO
 
 namespace BusinessLayer
 {
@@ -18,79 +12,79 @@ namespace BusinessLayer
 
         public Vaccine()
         {
-            this.nomeVacina = string.Empty;
-            this.doenca = string.Empty;
-            this.fabricante = string.Empty;
-            this.idVacina = 0;
-            this.dosesTotais = 0;
+            this.vaccineName = string.Empty;
+            this.disease = string.Empty;
+            this.manufacturer = string.Empty;
+            this.vaccineId = 0;
+            this.totalDoses = 0;
         }
 
-        public Vaccine(int idVacina, string nomeVacina, string doenca, string fabricante, int dosesTotais)
+        public Vaccine(int vaccineId, string vaccineName, string disease, string manufacturer, int totalDoses)
             : this()
         {
-            this.idVacina = idVacina;
-            this.nomeVacina = nomeVacina;
-            this.doenca = doenca;
-            this.fabricante = fabricante;
-            this.dosesTotais = dosesTotais;
+            this.vaccineId = vaccineId;
+            this.vaccineName = vaccineName;
+            this.disease = disease;
+            this.manufacturer = manufacturer;
+            this.totalDoses = totalDoses;
         }
 
         #endregion
 
         #region Properties
 
-        private int idVacina;
-        public int IdVacina
+        private int vaccineId;
+        public int VaccineId
         {
-            get { return idVacina; }
+            get { return vaccineId; }
             set
             {
-                this.idVacina = value;
-                this.OnPropertyChanged(nameof(IdVacina));
+                this.vaccineId = value;
+                this.OnPropertyChanged(nameof(VaccineId));
             }
         }
 
-        private string nomeVacina;
-        public string NomeVacina
+        private string vaccineName;
+        public string VaccineName
         {
-            get { return nomeVacina; }
+            get { return vaccineName; }
             set
             {
-                this.nomeVacina = value;
-                this.OnPropertyChanged(nameof(NomeVacina));
+                this.vaccineName = value;
+                this.OnPropertyChanged("VaccineName");
             }
         }
 
-        private string doenca;
-        public string Doenca
+        private string disease;
+        public string Disease
         {
-            get { return doenca; }
+            get { return disease; }
             set
             {
-                this.doenca = value;
-                this.OnPropertyChanged(nameof(Doenca));
+                this.disease = value;
+                this.OnPropertyChanged("Disease");
             }
         }
 
-        private string fabricante;
-        public string Fabricante
+        private string manufacturer;
+        public string Manufacturer
         {
-            get { return fabricante; }
+            get { return manufacturer; }
             set
             {
-                this.fabricante = value;
-                this.OnPropertyChanged(nameof(Fabricante));
+                this.manufacturer = value;
+                this.OnPropertyChanged("Manufacturer");
             }
         }
 
-        private int dosesTotais;
-        public int DosesTotais
+        private int totalDoses;
+        public int TotalDoses
         {
-            get { return dosesTotais; }
+            get { return totalDoses; }
             set
             {
-                this.dosesTotais = value;
-                this.OnPropertyChanged(nameof(DosesTotais));
+                this.totalDoses = value;
+                this.OnPropertyChanged("TotalDoses");
             }
         }
 
@@ -98,7 +92,7 @@ namespace BusinessLayer
         {
             get
             {
-                string message = $"Vaccine {this.IdVacina} - [{this.NomeVacina}]";
+                string message = $"Vaccine {this.VaccineId} - [{this.VaccineName}]";
                 return message;
             }
         }
@@ -138,42 +132,35 @@ namespace BusinessLayer
 
         public void NewVaccine()
         {
-            this.IdVacina = 0;
-            this.NomeVacina = string.Empty;
-            this.Doenca = string.Empty;
-            this.Fabricante = string.Empty;
-            this.DosesTotais = 0;
+            this.VaccineId = 0;
+            this.VaccineName = string.Empty;
+            this.Disease = string.Empty;
+            this.Manufacturer = string.Empty;
+            this.TotalDoses = 0;
         }
 
         public bool SaveVaccine(ref string sErro)
         {
-            return DataLayer.Vaccine.Save(
-                this.IdVacina,
-                this.NomeVacina,
-                this.Doenca,
-                this.Fabricante,
-                this.DosesTotais,
-                ref sErro
-            );
+            return DataLayer.Vaccine.Save(this.VaccineId, this.VaccineName, this.Disease, this.Manufacturer, this.TotalDoses, ref sErro);
         }
 
         public bool DeleteVaccine(ref string sErro)
         {
-            return DataLayer.Vaccine.Delete(this.IdVacina, ref sErro);
+            return DataLayer.Vaccine.Delete(this.VaccineId, ref sErro);
         }
 
-        public static Vaccine GetVaccine(int idVacina)
+        public static Vaccine GetVaccine(int vaccineId)
         {
             Vaccine vaccine = null;
-            string nomeVacina = string.Empty;
-            string doenca = string.Empty;
-            string fabricante = string.Empty;
-            int dosesTotais = 0;
+            string vaccineName = string.Empty;
+            string disease = string.Empty;
+            string manufacturer = string.Empty;
+            int totalDoses = 0;
             string erro = string.Empty;
 
-            if (DataLayer.Vaccine.GetVaccine(idVacina, ref nomeVacina, ref doenca, ref fabricante, ref dosesTotais, ref erro))
+            if (DataLayer.Vaccine.GetVaccine(vaccineId, ref vaccineName, ref disease, ref manufacturer, ref totalDoses, ref erro))
             {
-                vaccine = new Vaccine(idVacina, nomeVacina, doenca, fabricante, dosesTotais);
+                vaccine = new Vaccine(vaccineId, vaccineName, disease, manufacturer, totalDoses);
             }
 
             return vaccine;
@@ -183,19 +170,23 @@ namespace BusinessLayer
         {
             bool ok = false;
 
-            if (this.NomeVacina.ToUpper().Contains(filter.ToUpper()))
+            if (this.VaccineName.ToUpper().Contains(filter.ToUpper()))
             {
                 ok = true;
             }
-            else if (this.Doenca.ToUpper().Contains(filter.ToUpper()))
+            else if (this.Disease.ToUpper().Contains(filter.ToUpper()))
             {
                 ok = true;
             }
-            else if (this.Fabricante.ToUpper().Contains(filter.ToUpper()))
+            else if (this.Manufacturer.ToUpper().Contains(filter.ToUpper()))
             {
                 ok = true;
             }
-            else if (this.IdVacina.ToString().ToUpper().Contains(filter.ToUpper()))
+            else if (this.VaccineId.ToString().ToUpper().Contains(filter.ToUpper()))
+            {
+                ok = true;
+            }
+            else if (this.TotalDoses.ToString().ToUpper().Contains(filter.ToUpper()))
             {
                 ok = true;
             }
