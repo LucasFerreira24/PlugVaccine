@@ -9,16 +9,16 @@ namespace DataLayer
         // Certifique-se de substituir pela sua string real
         private string connectionString = "Server=localhost;Database=NomeDoSeuBanco;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        public void Inserir(string nome, string cidade, string telefone)
+        public void Inserir(string name, string city, string phone)
         {
-            string query = "INSERT INTO centros_vacinacao (nome_centro, cidade, telefone) VALUES (@nome, @cidade, @telefone)";
+            string query = "INSERT INTO centros_vacinacao (center_name, city, phone_number) VALUES (center_name, @city, @phone_number)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@nome", nome);
-                cmd.Parameters.AddWithValue("@cidade", cidade);
-                cmd.Parameters.AddWithValue("@telefone", telefone);
+                cmd.Parameters.AddWithValue("@center_name", name);
+                cmd.Parameters.AddWithValue("@city", city);
+                cmd.Parameters.AddWithValue("@phone_number", phone);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -28,7 +28,7 @@ namespace DataLayer
         public void PopularBanco()
         {
             string query = @"
-                INSERT INTO centros_vacinacao (nome_centro, cidade, telefone) VALUES  
+                INSERT INTO centros_vacinacao (center_name, city, phone_number) VALUES  
                 ('Centro de Saúde de Lisboa', 'Lisboa', '+351213456789'),
                 ('Centro de Saúde do Porto', 'Porto', '+351225678901'),
                 ('Centro de Saúde de Coimbra', 'Coimbra', '+351239123456'),
