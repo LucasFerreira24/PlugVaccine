@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Diagnostics;
+using Microsoft.Data.SqlClient;
 
 namespace DataLayer
 {
@@ -10,63 +11,21 @@ namespace DataLayer
 
         public static DataTable GetList()
         {
-            DataTable dataTable = null;
 
-            try
+            string connectionString =
+                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=VacinneManager;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30";
+
+            string erro = string.Empty;
+            DataTable dataTable = GlobalData.ObterLista("GetAllVaccines", connectionString, out erro);
+
+            if (dataTable == null)
             {
-                SqlConnection con = new SqlConnection();
-                con.ConnectionString = Properties.Settings.Default.ConnectionString;
-                con.Open();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = con;
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT vaccine_id, vaccine_name, disease, manufacturer, total_doses FROM Vaccine";
-
-                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.SingleResult);
-
-                dataTable = new DataTable();
-                dataTable.Load(dataReader);
-
-                con.Close();
+                System.Diagnostics.Debug.WriteLine("DataTable é NULL");
             }
-            catch (Exception e)
+            else
             {
-            }
-
-            return dataTable;
-        }
-
-        public static DataTable GetList(string filter)
-        {
-            DataTable dataTable = null;
-
-            try
-            {
-                SqlConnection con = new SqlConnection();
-                con.ConnectionString = Properties.Settings.Default.ConnectionString;
-                con.Open();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = con;
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = @"SELECT vaccine_id, vaccine_name, disease, manufacturer, total_doses
-                                    FROM Vaccine
-                                    WHERE vaccine_name LIKE @filter
-                                       OR disease LIKE @filter
-                                       OR manufacturer LIKE @filter";
-
-                cmd.Parameters.AddWithValue("@filter", "%" + filter + "%");
-
-                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.SingleResult);
-
-                dataTable = new DataTable();
-                dataTable.Load(dataReader);
-
-                con.Close();
-            }
-            catch (Exception e)
-            {
+                System.Diagnostics.Debug.WriteLine("DataTable NÃO é NULL");
+                System.Diagnostics.Debug.WriteLine($"Número de linhas: {dataTable.Rows.Count}");
             }
 
             return dataTable;

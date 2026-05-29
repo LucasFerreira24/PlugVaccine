@@ -16,9 +16,9 @@
         </Grid.ColumnDefinitions>
         <uc:InfoCard DataContext="{Binding InfoCardsViewModel}"
                  Grid.Column="0" Margin="0 0 5 0"                              
-                 Value="{Binding ProductionTotal, StringFormat={}{0:F1} t, 
+                 Value="{Binding TotalVaccines, StringFormat={}{0:F1} t, 
                          ConverterCulture=de-DE}" 
-                 Subtitle="Gesamtproduktion"/>
+                 Subtitle="GesamtproduktionAC"/>
         <icon:PackIconForkAwesome Kind="AreaChart" Foreground="AliceBlue" 
                               Margin="20 23 10 10"
                               Width="30" Height="30"/>
@@ -28,9 +28,9 @@
               Width="25" Height="25"/>
         <uc:InfoCard DataContext="{Binding InfoCardsViewModel}"
                  Grid.Column="1" Margin="5 0 5 0"                              
-                 Value="{Binding ProductionDefectsPercent, StringFormat={}{0:#.#%}, 
+                 Value="{Binding ProductionDefectsPercent, StringFormat={}{0:#.#%},
                          ConverterCulture=de-DE}"
-                 Subtitle="Produktionsausschuss"/>
+                 Subtitle="Production Vaccines"/>
         <icon:PackIconMaterialDesign Grid.Column="1" Kind="BrokenImage" Foreground="AliceBlue" 
               Margin="27 26 10 10"
               Width="25" Height="25"/>

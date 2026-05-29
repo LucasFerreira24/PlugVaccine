@@ -10,8 +10,14 @@ namespace Production_Analysis.Models
     {
         public TimePeriod(string selectedYear)
         {
-            Start = new DateTime(int.Parse(selectedYear), 1, 1);
-            End = new DateTime(int.Parse(selectedYear), 12, 31);
+            if (!int.TryParse(selectedYear, out int year))
+            {
+                // fallback → escolhe um valor default
+                year = DateTime.Now.Year;
+            }
+
+            Start = new DateTime(year, 1, 1);
+            End = new DateTime(year, 12, 31);
         }
 
         public DateTime Start { get; set; }

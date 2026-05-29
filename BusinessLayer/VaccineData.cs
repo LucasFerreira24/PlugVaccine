@@ -1,93 +1,156 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
-using DataLayer;
-
 
 namespace BusinessLayer
 {
     public class VaccineData
     {
-
-        #region Propriedades
-
-        private int idRegisto;
-        public int IdRegisto
-        {
-            get { return idRegisto; }
-            set { idRegisto = value; }
-        }
-
-        private int idPaciente;
-        public int IdPaciente
-        {
-            get { return idPaciente; }
-            set { idPaciente = value; }
-        }
-
-        private int idVacina;
-        public int IdVacina
-        {
-            get { return idVacina; }
-            set { idVacina = value; }
-        }
-
-        private int dose;
-        public int Dose
-        {
-            get { return dose; }
-            set { dose = value; }
-        }
-
-        private DateTime dataVacina;
-        public DateTime DataVacina
-        {
-            get { return dataVacina; }
-            set { dataVacina = value; }
-        }
-
-        private string idCentro;
-        public string IdCentro
-        {
-            get { return idCentro; }
-            set { idCentro = value; }
-        }
-
-        #endregion
-
-        #region Construtor
+        #region Construtors
 
         public VaccineData()
         {
-            idRegisto = 0;
-            idPaciente = 0;
-            idVacina = 0;
-            dose = 0;
-            dataVacina = DateTime.MinValue;
-            idCentro = string.Empty;
+            this.vaccineDataId = 0;
+            this.idPatient = 0;
+            this.idVaccine = 0;
+            this.doseNumber = 0;
+            this.vaccinationDate = DateTime.MinValue;
+            this.idCenter = 0;
         }
 
-        public VaccineData(int idRegisto, int idPaciente, int idVacina, int dose, DateTime dataVacina, string idCentro)
+        public VaccineData(
+            int vaccineDataId,
+            int idPatient,
+            int idVaccine,
+            int doseNumber,
+            DateTime vaccinationDate,
+            int idCenter)
+            : this()
         {
-            this.idRegisto = idRegisto;
-            this.idPaciente = idPaciente;
-            this.idVacina = idVacina;
-            this.dose = dose;
-            this.dataVacina = dataVacina;
-            this.idCentro = idCentro;
+            this.vaccineDataId = vaccineDataId;
+            this.idPatient = idPatient;
+            this.idVaccine = idVaccine;
+            this.doseNumber = doseNumber;
+            this.vaccinationDate = vaccinationDate;
+            this.idCenter = idCenter;
         }
 
         #endregion
 
-        #region Metodos
+        #region Properties
 
-        public static DataTable Listar()
+        private int vaccineDataId;
+        public int VaccineDataId
         {
-            string error = string.Empty;
-            DataTable Result = new DataTable();
+            get { return vaccineDataId; }
+            set
+            {
+                this.vaccineDataId = value;
+            }
+        }
 
-            VacinneData VacineDataLayer = new VacinneData();
-            return VacineDataLayer.Listar(out error);
+        private int idPatient;
+        public int IdPatient
+        {
+            get { return idPatient; }
+            set
+            {
+                this.idPatient = value;
+            }
+        }
+
+        private int idVaccine;
+        public int IdVaccine
+        {
+            get { return idVaccine; }
+            set
+            {
+                this.idVaccine = value;
+            }
+        }
+
+        private int doseNumber;
+        public int DoseNumber
+        {
+            get { return doseNumber; }
+            set
+            {
+                this.doseNumber = value;
+            }
+        }
+
+        private DateTime vaccinationDate;
+        public DateTime VaccinationDate
+        {
+            get { return vaccinationDate; }
+            set
+            {
+                this.vaccinationDate = value;
+            }
+        }
+
+        private int idCenter;
+        public int IdCenter
+        {
+            get { return idCenter; }
+            set
+            {
+                this.idCenter = value;
+            }
+        }
+
+        private string DebugMessage
+        {
+            get
+            {
+                string message = $"VaccineData {this.VaccineDataId} - Patient [{this.IdPatient}]";
+                return message;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public static DataTable GetList()
+        {
+            DataTable dataTable = DataLayer.VaccineData.GetList();
+            return dataTable;
+        }
+
+        public static VaccineDataCollection GetListVaccineData()
+        {
+            DataTable dataTable = VaccineData.GetList();
+
+            VaccineDataCollection vaccineData = new VaccineDataCollection(dataTable);
+            return vaccineData;
+        }
+
+        public void NewVaccineData()
+        {
+            this.VaccineDataId = 0;
+            this.IdPatient = 0;
+            this.IdVaccine = 0;
+            this.DoseNumber = 0;
+            this.VaccinationDate = DateTime.MinValue;
+            this.IdCenter = 0;
+        }
+
+        public bool Filter(string filter)
+        {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return true;
+            }
+
+            filter = filter.ToLower();
+
+            return this.VaccineDataId.ToString().Contains(filter)
+                || this.IdPatient.ToString().Contains(filter)
+                || this.IdVaccine.ToString().Contains(filter)
+                || this.DoseNumber.ToString().Contains(filter)
+                || this.IdCenter.ToString().Contains(filter)
+                || this.VaccinationDate.ToString("dd/MM/yyyy").Contains(filter);
         }
 
         #endregion

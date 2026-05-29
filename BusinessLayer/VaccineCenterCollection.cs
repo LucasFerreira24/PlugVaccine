@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BusinessLayer
 {
-    public class VaccineCollection : Collection<BusinessLayer.Vaccine>, INotifyPropertyChanged
+    public class VaccineCenterCollection : Collection<BusinessLayer.VaccineCenter>, INotifyPropertyChanged
     {
         #region Construtors
 
-        public VaccineCollection()
+        public VaccineCenterCollection()
         {
         }
 
-        public VaccineCollection(DataTable dataTable)
+        public VaccineCenterCollection(DataTable dataTable)
         {
             if (dataTable == null)
             {
@@ -23,15 +23,14 @@ namespace BusinessLayer
 
             foreach (DataRow item in dataTable.AsEnumerable())
             {
-                Vaccine vaccine = new Vaccine();
+                VaccineCenter vaccineCenter = new VaccineCenter();
 
-                vaccine.IdVacina = item.Field<int>("id_vacina");
-                vaccine.NomeVacina = item.Field<string>("NomeVacina");
-                vaccine.Doenca = item.Field<string>("doenca");
-                vaccine.Fabricante = item.Field<string>("fabricante");
-                vaccine.DosesTotais = item.Field<int>("doses_totais");
+                vaccineCenter.CenterId = item.Field<int>("center_id");
+                vaccineCenter.Name = item.Field<string>("name");
+                vaccineCenter.City = item.Field<string>("city");
+                vaccineCenter.PhoneNumber = item.Field<string>("phone_number");
 
-                this.Add(vaccine);
+                this.Add(vaccineCenter);
             }
         }
 
@@ -39,19 +38,18 @@ namespace BusinessLayer
 
         #region Methods
 
-        public IEnumerable<Vaccine> Filtrar(string filter)
+        public IEnumerable<VaccineCenter> Filtrar(string filter)
         {
-            IEnumerable<Vaccine> vaccines = from element in this
-                                            where element.Filter(filter)
-                                            select element;
+            IEnumerable<VaccineCenter> vaccineCenters = from element in this
+                                                        where element.Filter(filter)
+                                                        select element;
 
-            return vaccines;
+            return vaccineCenters;
         }
 
         public int GetTotal()
         {
             int total = this.Count;
-
             return total;
         }
 

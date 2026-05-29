@@ -33,6 +33,8 @@ namespace Production_Analysis.ViewModels
                 .BuildSeries();
         }
 
+        /*
+
         private double CalculateOverallEquipmentEffectiveness(IEnumerable<ProductionKPI> equipmentEffectivenesses)
         {
             Availability = 
@@ -49,6 +51,31 @@ namespace Production_Analysis.ViewModels
                 (equipmentEffectivenesses.Select(a => a.ProductionOutput).Sum());
 
             return (double)(Availability*Performance*Quality)*100;
+        }
+
+        */
+
+        // Teste so para correr o coidigo
+        private double CalculateOverallEquipmentEffectiveness(IEnumerable<ProductionKPI> equipmentEffectivenesses)
+        {
+            var totalOperatingTime = equipmentEffectivenesses.Sum(a => a.OperatingTime);
+            var totalScheduledTime = equipmentEffectivenesses.Sum(a => a.ScheduledTime);
+            var totalProduction = equipmentEffectivenesses.Sum(a => a.ProductionOutput);
+            var totalDefect = equipmentEffectivenesses.Sum(a => a.ProductionDefect);
+
+            Availability = totalScheduledTime == 0
+                ? 0
+                : totalOperatingTime / totalScheduledTime;
+
+            Performance = totalOperatingTime == 0
+                ? 0
+                : totalProduction / (totalOperatingTime * 140);
+
+            Quality = totalProduction == 0
+                ? 0
+                : (totalProduction - totalDefect) / totalProduction;
+
+            return (double)(Availability * Performance * Quality) * 100;
         }
     }
 }

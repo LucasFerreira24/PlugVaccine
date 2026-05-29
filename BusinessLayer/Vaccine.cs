@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 
 namespace BusinessLayer
 {
-    [DebuggerDisplay("{DebugMessage}")]
-    public class Vaccine : Notifier
+    public class Vaccine
     {
         #region Construtors
 
@@ -40,7 +38,6 @@ namespace BusinessLayer
             set
             {
                 this.vaccineId = value;
-                this.OnPropertyChanged(nameof(VaccineId));
             }
         }
 
@@ -51,7 +48,6 @@ namespace BusinessLayer
             set
             {
                 this.vaccineName = value;
-                this.OnPropertyChanged("VaccineName");
             }
         }
 
@@ -62,7 +58,6 @@ namespace BusinessLayer
             set
             {
                 this.disease = value;
-                this.OnPropertyChanged("Disease");
             }
         }
 
@@ -73,7 +68,6 @@ namespace BusinessLayer
             set
             {
                 this.manufacturer = value;
-                this.OnPropertyChanged("Manufacturer");
             }
         }
 
@@ -84,7 +78,6 @@ namespace BusinessLayer
             set
             {
                 this.totalDoses = value;
-                this.OnPropertyChanged("TotalDoses");
             }
         }
 
@@ -107,28 +100,29 @@ namespace BusinessLayer
             return dataTable;
         }
 
-        public static DataTable GetList(string filter)
-        {
-            return DataLayer.Vaccine.GetList(filter);
-        }
+        //public static DataTable GetList(string filter)
+        //{
+        //    return DataLayer.Vaccine.GetList(filter);
+        //}
 
         public static VaccineCollection GetListVaccines()
         {
             DataTable dataTable = Vaccine.GetList();
 
             VaccineCollection vaccines = new VaccineCollection(dataTable);
-
             return vaccines;
         }
 
-        public static VaccineCollection GetListVaccines(string filter)
-        {
-            DataTable dataTable = Vaccine.GetList(filter);
+        //public static VaccineCollection GetListVaccines(string filter)
+        //{
+        //    DataTable dataTable = Vaccine.GetList(filter);
 
-            VaccineCollection vaccines = new VaccineCollection(dataTable);
+        //    //VaccineCollection vaccines = new VaccineCollection(dataTable);
 
-            return vaccines;
-        }
+        //    //return vaccines;
+
+        //    return null;
+        //}
 
         public void NewVaccine()
         {
@@ -141,14 +135,18 @@ namespace BusinessLayer
 
         public bool SaveVaccine(ref string sErro)
         {
-            return DataLayer.Vaccine.Save(this.VaccineId, this.VaccineName, this.Disease, this.Manufacturer, this.TotalDoses, ref sErro);
+            //return DataLayer.Vaccine.Save(this.VaccineId, this.VaccineName, this.Disease, this.Manufacturer, this.TotalDoses, ref sErro);
+            return true;
         }
 
         public bool DeleteVaccine(ref string sErro)
         {
-            return DataLayer.Vaccine.Delete(this.VaccineId, ref sErro);
+            //return DataLayer.Vaccine.Delete(this.VaccineId, ref sErro);
+            return true;
         }
 
+        /*
+        
         public static Vaccine GetVaccine(int vaccineId)
         {
             Vaccine vaccine = null;
@@ -158,6 +156,8 @@ namespace BusinessLayer
             int totalDoses = 0;
             string erro = string.Empty;
 
+            
+
             if (DataLayer.Vaccine.GetVaccine(vaccineId, ref vaccineName, ref disease, ref manufacturer, ref totalDoses, ref erro))
             {
                 vaccine = new Vaccine(vaccineId, vaccineName, disease, manufacturer, totalDoses);
@@ -165,6 +165,8 @@ namespace BusinessLayer
 
             return vaccine;
         }
+
+        */
 
         internal bool Filter(string filter)
         {

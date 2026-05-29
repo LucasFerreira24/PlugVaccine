@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -6,15 +7,15 @@ using System.Linq;
 
 namespace BusinessLayer
 {
-    public class VaccineCollection : Collection<BusinessLayer.Vaccine>, INotifyPropertyChanged
+    public class VaccineDataCollection : Collection<BusinessLayer.VaccineData>, INotifyPropertyChanged
     {
         #region Construtors
 
-        public VaccineCollection()
+        public VaccineDataCollection()
         {
         }
 
-        public VaccineCollection(DataTable dataTable)
+        public VaccineDataCollection(DataTable dataTable)
         {
             if (dataTable == null)
             {
@@ -23,15 +24,16 @@ namespace BusinessLayer
 
             foreach (DataRow item in dataTable.AsEnumerable())
             {
-                Vaccine vaccine = new Vaccine();
+                VaccineData vaccineData = new VaccineData();
 
-                vaccine.VaccineId = item.Field<int>("vaccine_id");
-                vaccine.VaccineName = item.Field<string>("vaccine_name");
-                vaccine.Disease = item.Field<string>("disease");
-                vaccine.Manufacturer = item.Field<string>("manufacturer");
-                vaccine.TotalDoses = item.Field<int>("total_doses");
+                vaccineData.VaccineDataId = item.Field<int>("vaccine_data_id");
+                vaccineData.IdPatient = item.Field<int>("id_patient");
+                vaccineData.IdVaccine = item.Field<int>("id_vaccine");
+                vaccineData.DoseNumber = item.Field<int>("dose_number");
+                vaccineData.VaccinationDate = item.Field<DateTime>("vaccination_date");
+                vaccineData.IdCenter = item.Field<int>("id_center");
 
-                this.Add(vaccine);
+                this.Add(vaccineData);
             }
         }
 
@@ -39,19 +41,18 @@ namespace BusinessLayer
 
         #region Methods
 
-        public IEnumerable<Vaccine> Filtrar(string filter)
+        public IEnumerable<VaccineData> Filtrar(string filter)
         {
-            IEnumerable<Vaccine> vaccines = from element in this
-                                            where element.Filter(filter)
-                                            select element;
+            IEnumerable<VaccineData> vaccineData = from element in this
+                                                   where element.Filter(filter)
+                                                   select element;
 
-            return vaccines;
+            return vaccineData;
         }
 
         public int GetTotal()
         {
             int total = this.Count;
-
             return total;
         }
 
